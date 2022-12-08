@@ -16,7 +16,7 @@ add_definitions(
 
 # Common external libraries
 
-#find_package(nlohmann_json REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 # Libraries
 
@@ -24,3 +24,4 @@ add_definitions(
 # Solutions
 
 add_subdirectory(day01)
+add_subdirectory(day02)
