@@ -20,6 +20,7 @@ find_package(nlohmann_json REQUIRED)
 
 # Libraries
 
+add_subdirectory(common)
 
 # Solutions
 
@@ -29,3 +30,4 @@ add_subdirectory(day03)
 add_subdirectory(day04)
 add_subdirectory(day05)
 add_subdirectory(day06)
+add_subdirectory(day07)
