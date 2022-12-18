@@ -210,6 +210,6 @@ static int countDots(Paper const& paper)
 {
     int count = 0;
     for (auto const& row : paper)
-        count += std::count(row.begin(), row.end(), DOT);
+        count += (int)std::count(row.begin(), row.end(), DOT);
     return count;
 }

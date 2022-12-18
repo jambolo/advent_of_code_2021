@@ -40,9 +40,9 @@ int main(int argc, char** argv)
     std::sort(positions.begin(), positions.end());
 
 #if defined(PART1)
-    int best_sum = (positions.back() - positions.front())* positions.size();
+    int best_sum = (positions.back() - positions.front()) * (int)positions.size();
 #else
-    int best_sum = (positions.back() - positions.front()) * (positions.back() - positions.front()) * positions.size() / 2;
+    int best_sum = (positions.back() - positions.front()) * (positions.back() - positions.front()) * (int)positions.size() / 2;
 #endif
     int best_x = 0;
     for (int x = positions.front(); x <= positions.back(); ++x)

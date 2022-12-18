@@ -171,7 +171,7 @@ static void findPathToEnd(std::shared_ptr<Node> node, std::vector<std::string>& 
                 }
                 else
                 {
-                    int count = std::count(path.begin(), path.end(), s->name);
+                    int count = (int)std::count(path.begin(), path.end(), s->name);
                     if (count < 1)
                     {
                         findPathToEnd(s, path, paths, twice);
