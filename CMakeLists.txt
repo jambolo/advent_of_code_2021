@@ -5,6 +5,8 @@ option(BUILD_SHARED_LIBS "Build libraries as DLLs" FALSE)
 
 # Common compiler definitions
 
+set(CMAKE_CXX_STANDARD 17)
+
 add_definitions(
     -DNOMINMAX
     -DWIN32_LEAN_AND_MEAN
@@ -39,3 +41,5 @@ add_subdirectory(day12)
 add_subdirectory(day13)
 add_subdirectory(day14)
 add_subdirectory(day15)
+add_subdirectory(day16)
+add_subdirectory(day17)
