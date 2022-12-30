@@ -9,7 +9,7 @@ namespace
 bool nodePrioritizer(PathFinder::Node const * a, PathFinder::Node const* b)
 {
     // Min heap
-    return a->f > b->f;
+    return a->f() > b->f();
 }
 
 }
@@ -83,7 +83,7 @@ PathFinder::Path PathFinder::findPath(Node * start, Node * end)
                 continue;
 
             // Compute the cost to the neighbor through this node
-            float cost = pNode->g + edge->cost;
+            float cost = pNode->g() + edge->cost;
 
             // If the neighbor is not in the open queue, then add it
 
@@ -108,7 +108,7 @@ PathFinder::Path PathFinder::findPath(Node * start, Node * end)
 
             // Otherwise, perhaps this is a lower-cost path to it. If so, update it to reflect the new path.
 
-            else if (cost < pNeighbor->g)
+            else if (cost < pNeighbor->g())
             {
                 pNeighbor->update(cost, pNode);
                 // Ouch. This could be expensive. If we knew where in the heap this value is we could push_heap instead.
@@ -139,7 +139,7 @@ PathFinder::Path PathFinder::constructPath(Node * from, Node * to)
     // elements is the vector is reversed.
 
     // Add nodes to the path (end-to-start)
-    for (Node * pNode = to; pNode != nullptr; pNode = pNode->predecessor)
+    for (Node * pNode = to; pNode != nullptr; pNode = pNode->predecessor())
     {
         path.push_back(pNode);
     }
@@ -177,17 +177,17 @@ void PathFinder::Node::close()
 
 void PathFinder::Node::reset()
 {
-    f           = 0.0f;
-    g           = 0.0f;
-    predecessor = nullptr;
-    cachedH_    = 0.0f;
-    status_     = Status::NOT_VISITED;
+    f_              = 0.0f;
+    g_              = 0.0f;
+    predecessor_    = nullptr;
+    cachedH_        = 0.0f;
+    status_         = Status::NOT_VISITED;
 }
 
 void PathFinder::Node::update(float cost, Node * pred)
 {
     assert(status_ == Status::OPEN);
-    g           = cost;
-    f           = g + cachedH_;
-    predecessor = pred;
+    g_              = cost;
+    f_              = g_ + cachedH_;
+    predecessor_    = pred;
 }

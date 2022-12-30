@@ -53,21 +53,27 @@ public:
     Node() = default;
 
     //! Returns the estimated cost from this node to the goal. The value must not be greater the actual cost.
-    //
+    //!
     //! @note    This value is assumed to be constant.
     virtual float h(Node const * goal) const = 0;
 
     //! Updates pathfinding values for the node.
-    void update(float cost, Node * pred);
+    //!
+    //! @note: Must be called if overriden
+    virtual void update(float cost, Node * pred);
 
     //! Anticipates being added to the open queue.
-    void open(float cost, Node * pPredecessor, Node const * goal);
+    //!
+    //! @note: Must be called if overriden
+    virtual void open(float cost, Node * pPredecessor, Node const * goal);
+
+    //! Anticipates being closed.
+    //!
+    //! @note: Must be called if overriden
+    virtual void close();
 
     //! Returns true if the node is open.
     bool isOpen() const { return status_ == Status::OPEN; }
-
-    //! Anticipates being closed.
-    void close();
 
     //! Returns true if the node is closed.
     bool isClosed() const { return status_ == Status::CLOSED; }
@@ -75,13 +81,16 @@ public:
     //! Resets the node's status to not visited.
     void reset();
 
+    //! Returns the estimated cost of the total path through this node.
+    float f() const { return f_; }
+    
+    //!< Returns the lowest cost of path to this node from the start
+    float g() const { return g_; }
+
+    //!< Returns the previous node in the path (assuming the path goes through this node), or nullptr
+    Node* predecessor() { return predecessor_; }
+
     EdgeList edges;   //!< List of edges leaving the node
-
-    // For use by the pathfinder
-
-    float f = 0.0f;                 //!< Estimated cost of total path through this node
-    float g = 0.0f;                 //!< Cost of path to this node from the start
-    Node * predecessor = nullptr;   //!< Previous node in the path (assuming the path goes through this node)
 
 private:
 
@@ -92,17 +101,19 @@ private:
         CLOSED
     };
 
-    float cachedH_ = 0.0f;                  // Cached value of h()
-    Status status_ = Status::NOT_VISITED;   // Node status
+    float cachedH_      = 0.0f;                 // Cached value of h()
+    Status status_      = Status::NOT_VISITED;  // Node status
+    float f_            = 0.0f;                 // Estimated cost of total path through this node
+    float g_            = 0.0f;                 // Cost of path to this node from the start
+    Node * predecessor_ = nullptr;              // Previous node in the path (assuming the path goes through this node)
 };
 
 //! Pathfinder edge.
 class PathFinder::Edge
 {
 public:
-
-    float cost;             //!< Cost of traversing the edge.
-    Node * to = nullptr;    //!< Link to the edge's destination node.
+    float cost; // Cost of traversing the edge.
+    Node* to;   // Destination of edge
 };
 
 #endif // !defined(PATHFINDER_H_INCLUDED)
